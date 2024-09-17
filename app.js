@@ -5,8 +5,6 @@ app.get('/', (req, res) => {
     res.send('Routing v1');
 });
 
-module.exports = app;
-
 app.get('/', (req, res) => {
     res.send('Endpoint funcional');
 });
