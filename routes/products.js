@@ -52,7 +52,7 @@ router.delete('/:id', (req, res) => {
   if (index === -1) return res.status(404).json({ message: 'Producto no encontrado' });
 
   products.splice(index, 1);
-  res.status(204).send();
+  res.status(200).json({ message: 'Producto eliminado correctamente' });
 });
 
 module.exports = router;
