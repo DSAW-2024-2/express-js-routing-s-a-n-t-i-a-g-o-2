@@ -25,11 +25,17 @@ router.post('/', (req, res) => {
     res.status(201).json(newProduct);
 });
 
-// Obtener un producto por ID
-router.get('/:id', (req, res) => {
-  const product = products.find(p => p.id === req.params.id);
-  if (!product) return res.status(404).json({ message: 'Producto no encontrado' });
-  res.json(product);
+// Crear un nuevo producto
+router.post('/', (req, res) => {
+  const { id, name, price, category } = req.body;
+
+  if (!id || !name || !price || !category) {
+      return res.status(400).json({ message: 'Por favor, proporcione id, name, price y category' });
+  }
+
+  const newProduct = { id, name, price, category };
+  products.push(newProduct);
+  res.status(201).json(newProduct);
 });
 
 // Actualizar un producto por ID
