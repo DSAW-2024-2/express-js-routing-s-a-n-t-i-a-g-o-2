@@ -34,11 +34,18 @@ router.get('/:id', (req, res) => {
 
 // Actualizar un producto por ID
 router.put('/:id', (req, res) => {
-  const product = products.find(p => p.id === req.params.id);
-  if (!product) return res.status(404).json({ message: 'Producto no encontrado' });
+    const index = products.findIndex(p => p.id === req.params.id);
+    if (index === -1) return res.status(404).json({ message: 'Producto no encontrado' });
 
-  Object.assign(product, req.body);
-  res.json(product);
+    const updatedProduct = {
+        id: req.body.id || products[index].id,
+        name: req.body.name || products[index].name,
+        price: req.body.price || products[index].price,
+        category: req.body.category || products[index].category,
+    };
+
+    products[index] = updatedProduct;
+    res.json(updatedProduct);
 });
 
 // Eliminar un producto por ID
