@@ -7,35 +7,17 @@ router.get('/', (req, res) => {
   res.json(products);
 });
 
-
-const generateRandomId = () => Math.random().toString(36).substr(2, 9);
-const generateRandomName = () => `Product-${Math.random().toString(36).substr(2, 5)}`;
-const generateRandomPrice = () => (Math.random() * 100).toFixed(2);
-const generateRandomCategory = () => `Category-${Math.random().toString(36).substr(2, 5)}`;
-
-router.post('/', (req, res) => {
-    const newProduct = {
-        id: generateRandomId(),
-        name: generateRandomName(),
-        price: generateRandomPrice(),
-        category: generateRandomCategory(),
-        ...req.body
-    };
-    products.push(newProduct);
-    res.status(201).json(newProduct);
-});
-
 // Crear un nuevo producto
 router.post('/', (req, res) => {
-  const { id, name, price, category } = req.body;
+    const { id, name, price, category } = req.body;
 
-  if (!id || !name || !price || !category) {
-      return res.status(400).json({ message: 'Por favor, proporcione id, name, price y category' });
-  }
+    if (!id || !name || !price || !category) {
+        return res.status(400).json({ message: 'Por favor, proporcione id, name, price y category' });
+    }
 
-  const newProduct = { id, name, price, category };
-  products.push(newProduct);
-  res.status(201).json(newProduct);
+    const newProduct = { id, name, price, category };
+    products.push(newProduct);
+    res.status(201).json(newProduct);
 });
 
 // Actualizar un producto por ID
