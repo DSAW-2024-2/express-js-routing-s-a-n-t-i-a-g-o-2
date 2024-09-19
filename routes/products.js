@@ -7,12 +7,7 @@ router.get('/', (req, res) => {
   res.json(products);
 });
 
-// Crear un nuevo producto
-router.post('/', (req, res) => {
-  const newProduct = req.body;
-  products.push(newProduct);
-  res.status(201).json(newProduct);
-});
+
 const generateRandomId = () => Math.random().toString(36).substr(2, 9);
 const generateRandomName = () => `Product-${Math.random().toString(36).substr(2, 5)}`;
 const generateRandomPrice = () => (Math.random() * 100).toFixed(2);
