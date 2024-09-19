@@ -13,6 +13,22 @@ router.post('/', (req, res) => {
   products.push(newProduct);
   res.status(201).json(newProduct);
 });
+const generateRandomId = () => Math.random().toString(36).substr(2, 9);
+const generateRandomName = () => `Product-${Math.random().toString(36).substr(2, 5)}`;
+const generateRandomPrice = () => (Math.random() * 100).toFixed(2);
+const generateRandomCategory = () => `Category-${Math.random().toString(36).substr(2, 5)}`;
+
+router.post('/', (req, res) => {
+    const newProduct = {
+        id: generateRandomId(),
+        name: generateRandomName(),
+        price: generateRandomPrice(),
+        category: generateRandomCategory(),
+        ...req.body
+    };
+    products.push(newProduct);
+    res.status(201).json(newProduct);
+});
 
 // Obtener un producto por ID
 router.get('/:id', (req, res) => {
