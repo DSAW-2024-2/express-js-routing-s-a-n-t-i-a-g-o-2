@@ -11,19 +11,34 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
   let { id, name, price, category } = req.body;
 
+  // Verificar que todos los campos son strings
   if ([id, name, price, category].some(param => typeof param !== "string")) {
     return res.status(400).json({ message: 'Todos los campos deben ser strings' });
   }
 
+  // Verificar que id y price contengan solo números
+  const numberRegex = /^[0-9]+$/;
+  if (!numberRegex.test(id) || !numberRegex.test(price)) {
+    return res.status(400).json({ message: 'El id y el price deben contener solo números.' });
+  }
+
+  // Verificar que name y category contengan solo letras
+  const letterRegex = /^[A-Za-z\s]+$/;
+  if (!letterRegex.test(name) || !letterRegex.test(category)) {
+    return res.status(400).json({ message: 'El name y el category deben contener solo letras.' });
+  }
+
+  // Verificar que todos los campos están presentes
   if (!id || !name || !price || !category) {
     return res.status(400).json({ message: 'Todos los campos son requeridos: id, name, price, category' });
   }
 
-
+  // Crear el nuevo producto
   const newProduct = { id, name, price, category };
   products.push(newProduct);
   res.status(201).json(newProduct);
 });
+
 
 // Actualizar un producto por ID
 router.put('/:id', (req, res) => {
