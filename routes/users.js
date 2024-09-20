@@ -54,8 +54,8 @@ router.put('/:id', (req, res) => {
   if (email && typeof email !== 'string') {
     return res.status(400).json({ message: 'El email debe ser un string' });
   }
-  if (age && typeof age !== 'number') {
-    return res.status(400).json({ message: 'La edad debe ser un número' });
+  if (age && typeof age !== 'string') {
+    return res.status(400).json({ message: 'La edad debe ser un string' });
   }
 
   // Actualizar los campos del usuario
@@ -72,7 +72,7 @@ router.delete('/:id', (req, res) => {
   if (index === -1) return res.status(404).json({ message: 'Usuario no encontrado' });
 
   users.splice(index, 1);
-  res.status(204).send();
+  res.status(200).json({message:'Usuario eliminado correctamente!!!'});
 });
 
 module.exports = router;
