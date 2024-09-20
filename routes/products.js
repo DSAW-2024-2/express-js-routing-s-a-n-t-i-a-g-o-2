@@ -11,13 +11,14 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
   let { id, name, price, category } = req.body;
 
+  if ([id, name, price, category].some(param => typeof param !== "string")) {
+    return res.status(400).json({ message: 'Todos los campos deben ser strings' });
+  }
+
   if (!id || !name || !price || !category) {
     return res.status(400).json({ message: 'Todos los campos son requeridos: id, name, price, category' });
   }
 
-  // Convertir id y price a string
-  id = String(id);
-  price = String(price);
 
   const newProduct = { id, name, price, category };
   products.push(newProduct);
