@@ -9,7 +9,26 @@ router.get('/', (req, res) => {
 
 // Crear un nuevo usuario
 router.post('/', (req, res) => {
-  const newUser = req.body;
+  let { id, name, email, age } = req.body;
+
+  // Verificar que todos los campos son strings excepto age que debe ser numérico
+  if (typeof id !== 'string' || typeof name !== 'string' || typeof email !== 'string' || typeof age !== 'string') {
+    return res.status(400).json({ message: 'Verifique que los campos id, name, email y age sean strings' });
+  }
+
+  // Verificar que el email tenga un formato válido
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({ message: 'Email no es válido' });
+  }
+
+  // Verificar que todos los campos están presentes
+  if (!id || !name || !email || age === undefined) {
+    return res.status(400).json({ message: 'Todos los campos son requeridos: id, name, email, age' });
+  }
+
+  // Crear el nuevo usuario
+  const newUser = { id, name, email, age };
   users.push(newUser);
   res.status(201).json(newUser);
 });
@@ -23,10 +42,27 @@ router.get('/:id', (req, res) => {
 
 // Actualizar un usuario por ID
 router.put('/:id', (req, res) => {
+  let { name, email, age } = req.body;
   const user = users.find(u => u.id === req.params.id);
+  
   if (!user) return res.status(404).json({ message: 'Usuario no encontrado' });
 
-  Object.assign(user, req.body);  // Actualiza los campos enviados
+  // Verificar que los campos sean del tipo correcto si se envían
+  if (name && typeof name !== 'string') {
+    return res.status(400).json({ message: 'El nombre debe ser un string' });
+  }
+  if (email && typeof email !== 'string') {
+    return res.status(400).json({ message: 'El email debe ser un string' });
+  }
+  if (age && typeof age !== 'number') {
+    return res.status(400).json({ message: 'La edad debe ser un número' });
+  }
+
+  // Actualizar los campos del usuario
+  if (name) user.name = name;
+  if (email) user.email = email;
+  if (age) user.age = age;
+
   res.json(user);
 });
 
@@ -36,7 +72,7 @@ router.delete('/:id', (req, res) => {
   if (index === -1) return res.status(404).json({ message: 'Usuario no encontrado' });
 
   users.splice(index, 1);
-  res.status(204).send();  // 204 significa "No Content"
+  res.status(204).send();
 });
 
 module.exports = router;
