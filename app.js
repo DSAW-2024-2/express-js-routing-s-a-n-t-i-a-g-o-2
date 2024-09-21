@@ -11,6 +11,10 @@ app.use('/users', usersRoutes);
 app.use('/products', productsRoutes);
 app.use('/orders', ordersRoutes);
 
+app.get('/', (req, res) => {
+  res.send('Bienvenido!!');
+});
+
 // Manejar rutas no definidas
 app.use((req, res) => {
   res.status(404).json({ message: 'Ruta no encontrada' });
