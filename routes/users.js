@@ -16,10 +16,16 @@ router.post('/', (req, res) => {
     return res.status(400).json({ message: 'Verifique que los campos id, name, email y age sean strings' });
   }
 
-  // Verificar que el email tenga un formato válido
+  // Verificar que el nombre no contenga números
+  const nameRegex = /^[A-Za-z\s]+$/;
+  if (!nameRegex.test(name)) {
+    return res.status(400).json({ message: 'El nombre solo puede contener letras y espacios' });
+  }
+
+  // Verificar que el email tenga un formato válido y contenga arroba
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email)) {
-    return res.status(400).json({ message: 'Email no es válido' });
+    return res.status(400).json({ message: 'Email no es válido. Debe contener una arroba (@).' });
   }
 
   // Verificar que todos los campos están presentes
@@ -44,7 +50,7 @@ router.get('/:id', (req, res) => {
 router.put('/:id', (req, res) => {
   let { name, email, age } = req.body;
   const user = users.find(u => u.id === req.params.id);
-  
+
   if (!user) return res.status(404).json({ message: 'Usuario no encontrado' });
 
   // Verificar que los campos sean del tipo correcto si se envían
@@ -56,6 +62,16 @@ router.put('/:id', (req, res) => {
   }
   if (age && typeof age !== 'string') {
     return res.status(400).json({ message: 'La edad debe ser un string' });
+  }
+
+  // Verificar que el nombre no contenga números si se actualiza
+  if (name && !nameRegex.test(name)) {
+    return res.status(400).json({ message: 'El nombre solo puede contener letras y espacios' });
+  }
+
+  // Verificar que el email tenga un formato válido y contenga arroba si se actualiza
+  if (email && !emailRegex.test(email)) {
+    return res.status(400).json({ message: 'Email no es válido. Debe contener una arroba (@).' });
   }
 
   // Actualizar los campos del usuario
@@ -72,7 +88,7 @@ router.delete('/:id', (req, res) => {
   if (index === -1) return res.status(404).json({ message: 'Usuario no encontrado' });
 
   users.splice(index, 1);
-  res.status(200).json({message:'Usuario eliminado correctamente!!!'});
+  res.status(200).json({ message: 'Usuario eliminado correctamente!!!' });
 });
 
 module.exports = router;
