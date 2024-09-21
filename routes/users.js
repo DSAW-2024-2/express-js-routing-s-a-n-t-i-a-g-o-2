@@ -65,6 +65,7 @@ router.put('/:id', (req, res) => {
   }
 
   // Verificar que el nombre no contenga números si se actualiza
+  const nameRegex = /^[A-Za-z\s]+$/;
   if (name && !nameRegex.test(name)) {
     return res.status(400).json({ message: 'El nombre solo puede contener letras y espacios' });
   }
