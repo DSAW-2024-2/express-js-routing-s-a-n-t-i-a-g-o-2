@@ -70,9 +70,16 @@ router.put('/:id', (req, res) => {
     return res.status(400).json({ message: 'El nombre solo puede contener letras y espacios' });
   }
 
+    // Expresión regular para validar el formato de email
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
   // Verificar que el email tenga un formato válido y contenga arroba si se actualiza
-  if (email && !emailRegex.test(email)) {
-    return res.status(400).json({ message: 'Email no es válido. Debe contener una arroba (@).' });
+  if (email && typeof email === 'string') {
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ message: 'Email no es válido. Debe contener una arroba (@) y un dominio válido.' });
+    }
+  } else if (email !== undefined) {
+    return res.status(400).json({ message: 'El email debe ser un string.' });
   }
 
   // Actualizar los campos del usuario
