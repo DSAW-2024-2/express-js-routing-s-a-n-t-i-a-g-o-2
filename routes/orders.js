@@ -9,6 +9,14 @@ router.get('/', (req, res) => {
   res.json(orders);
 });
 
+//Obtener pedido por ID
+router.get('/:id', (req, res) => {
+  const order = orders.find(o => o.id === req.params.id);
+  if (!order) return res.status(404).json({ message: 'Pedido no encontrado' });
+  res.json(order);
+});
+
+
 // Crear un nuevo pedido
 router.post('/', (req, res) => {
   const { userId, productId, quantity } = req.body;
@@ -36,13 +44,6 @@ router.post('/', (req, res) => {
   
   orders.push(newOrder);
   res.status(201).json(newOrder);
-});
-
-// Obtener un pedido por ID
-router.get('/:id', (req, res) => {
-  const order = orders.find(o => o.id === req.params.id);
-  if (!order) return res.status(404).json({ message: 'Pedido no encontrado' });
-  res.json(order);
 });
 
 module.exports = router;
