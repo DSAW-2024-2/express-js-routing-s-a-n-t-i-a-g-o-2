@@ -1,7 +1,7 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/2snmTAKG)
 # Taller en Parejas: Creación de una API REST con Express.js
 
-# Santiago Gutierres de Piñeres Barbosa
+# Santiago Gutiérrez de Piñeres Barbosa
 # Santiago Urrego Rodriguez
 
 ## Link: https://express-js-routing-s-a-n-t-i-a-g-o-2.vercel.app
